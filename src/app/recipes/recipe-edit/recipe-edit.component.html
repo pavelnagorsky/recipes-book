@@ -1,0 +1,116 @@
+<div class="row" *ngIf="editMode && !recipe">
+  <h3>Recipe can't be loaded...</h3>
+</div>
+<div class="row" *ngIf="(editMode && recipe) || !editMode">
+  <div class="col-12 col-xl-10 mb-3">
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col">
+          <button 
+            type="submit"
+            class="btn btn-success me-1"
+            [disabled]="!recipeForm.valid"
+          >
+            Save
+          </button>
+          <button 
+            type="button"
+            class="btn btn-danger"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+              formControlName="name"
+              [class]="['form-control', isValid('name')].join(' ')"
+              type="text" 
+              id="name"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="imagePath">Image URL</label>
+            <input 
+              formControlName="imagePath"
+              [class]="['form-control', isValid('imagePath')].join(' ')"
+              type="text" 
+              id="imagePath"
+              #imagePath
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col" *ngIf="isValidUrl('imagePath')">
+          <img [src]="imagePath.value" class="img-fluid">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+              formControlName="description"
+              [class]="['form-control', isValid('description')].join(' ')"
+              type="text" 
+              id="description"
+              rows="6"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row gy-1 my-2" formArrayName="ingredients">
+        <div 
+          *ngFor="let ingredientCtrl of getControls(); let i = index"
+          [formGroupName]="i"
+          class="d-flex flex-row"
+        >
+          <div class="col-7">
+            <input 
+              formControlName="name"
+              class="form-control"
+              type="text" 
+            >
+          </div>
+          <div class="col-3 ps-3">
+            <input 
+              formControlName="amount"
+              class="form-control"
+              type="number" 
+            >
+          </div>
+          <div class="col-2 ps-3">
+            <button 
+              class="btn btn-danger"
+              type="button"
+              (click)="onDeleteIngredient(i)"
+            >
+              X 
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col">
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="onAddIngredient()"
+          >
+            Add Ingredient
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

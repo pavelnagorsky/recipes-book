@@ -1,0 +1,10 @@
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-color: rgba(255,10,29,1) !important; 
+  box-shadow: none !important;
+}
+
+input.ng-invalid.ng-touched:focus,
+textarea.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255,10,29,0.25) !important;
+}
